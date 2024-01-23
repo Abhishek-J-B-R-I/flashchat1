@@ -8,6 +8,10 @@ class registration extends StatefulWidget {
 }
 
 class _registrationState extends State<registration> {
+
+  late String email;
+  late String pass;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +33,9 @@ class _registrationState extends State<registration> {
             SizedBox(
               height: 30,
             ),
-            TextField(
+            TextField(onChanged: (value) {
+              email=value;
+            },
               decoration: InputDecoration(
                   hintText: "Enter your email",
                   border: OutlineInputBorder(
@@ -39,7 +45,9 @@ class _registrationState extends State<registration> {
             SizedBox(
               height: 10,
             ),
-            TextField(
+            TextField(onChanged: (value) {
+              pass=value;
+            },
               decoration: InputDecoration(
                   hintText: "Enter your password",
                   border: OutlineInputBorder(
@@ -51,7 +59,10 @@ class _registrationState extends State<registration> {
             Hero(
               tag: 'r',
               child: FilledButton(
-                onPressed: () {},
+                onPressed: () {
+                  print(email);
+                  print(pass);
+                },
                 child: Text("Register"),
                 style: ButtonStyle(
                     backgroundColor: MaterialStatePropertyAll(Colors.blueAccent)),
