@@ -33,7 +33,7 @@ class _registrationState extends State<registration> {
             SizedBox(
               height: 30,
             ),
-            TextField(onChanged: (value) {
+            TextField(keyboardType: TextInputType.emailAddress,textAlign: TextAlign.center,onChanged: (value) {
               email=value;
             },
               decoration: InputDecoration(
@@ -45,7 +45,7 @@ class _registrationState extends State<registration> {
             SizedBox(
               height: 10,
             ),
-            TextField(onChanged: (value) {
+            TextField(obscureText: true,textAlign: TextAlign.center,onChanged: (value) {
               pass=value;
             },
               decoration: InputDecoration(
