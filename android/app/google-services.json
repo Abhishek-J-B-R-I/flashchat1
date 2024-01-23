@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "366265162539",
+    "project_id": "trymeifyoucan-3abb9",
+    "storage_bucket": "trymeifyoucan-3abb9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:366265162539:android:c1564819c30bd41ce5836e",
+        "android_client_info": {
+          "package_name": "com.example.untitled1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzEAF0mqKvOdvhmMaaLz9q86fLPt0rRHI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
