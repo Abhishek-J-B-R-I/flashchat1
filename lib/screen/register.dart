@@ -8,7 +8,6 @@ class registration extends StatefulWidget {
 }
 
 class _registrationState extends State<registration> {
-
   late String email;
   late String pass;
 
@@ -33,9 +32,12 @@ class _registrationState extends State<registration> {
             SizedBox(
               height: 30,
             ),
-            TextField(keyboardType: TextInputType.emailAddress,textAlign: TextAlign.center,onChanged: (value) {
-              email=value;
-            },
+            TextField(
+              keyboardType: TextInputType.emailAddress,
+              textAlign: TextAlign.center,
+              onChanged: (value) {
+                email = value;
+              },
               decoration: InputDecoration(
                   hintText: "Enter your email",
                   border: OutlineInputBorder(
@@ -45,9 +47,12 @@ class _registrationState extends State<registration> {
             SizedBox(
               height: 10,
             ),
-            TextField(obscureText: true,textAlign: TextAlign.center,onChanged: (value) {
-              pass=value;
-            },
+            TextField(
+              obscureText: true,
+              textAlign: TextAlign.center,
+              onChanged: (value) {
+                pass = value;
+              },
               decoration: InputDecoration(
                   hintText: "Enter your password",
                   border: OutlineInputBorder(
@@ -65,15 +70,20 @@ class _registrationState extends State<registration> {
                 },
                 child: Text("Register"),
                 style: ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Colors.blueAccent)),
+                    backgroundColor:
+                        MaterialStatePropertyAll(Colors.blueAccent)),
               ),
             )
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(child: Icon(Icons.home),backgroundColor: Colors.blueAccent,onPressed: (){
-        Navigator.pop(context);
-      },),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.home),
+        backgroundColor: Colors.blueAccent,
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      ),
     );
   }
 }

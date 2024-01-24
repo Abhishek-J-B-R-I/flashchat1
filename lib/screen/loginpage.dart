@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:untitled1/screen/chat_screen.dart';
 
 class loginpage extends StatefulWidget {
 
@@ -32,6 +33,8 @@ class _loginpageState extends State<loginpage> {
             ),
             SizedBox(height: 30,),
             TextField(
+              keyboardType: TextInputType.emailAddress,
+              textAlign: TextAlign.center,
               decoration: InputDecoration(
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(
@@ -41,6 +44,9 @@ class _loginpageState extends State<loginpage> {
             ),
             SizedBox(height: 10,),
             TextField(
+              obscureText: true,
+              textAlign: TextAlign.center,
+              //keyboardType: TextInputType.,
               decoration: InputDecoration(
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(50)),
@@ -50,7 +56,9 @@ class _loginpageState extends State<loginpage> {
             Hero(
               tag: 'lg',
               child: FilledButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, chat_screen.chatnow);
+                },
                 child: Text(
                   "Log In",
                 ),
