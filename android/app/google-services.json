@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "366265162539",
-    "project_id": "trymeifyoucan-3abb9",
-    "storage_bucket": "trymeifyoucan-3abb9.appspot.com"
+    "project_number": "292039384197",
+    "project_id": "justchecking-efa8c",
+    "storage_bucket": "justchecking-efa8c.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:366265162539:android:c1564819c30bd41ce5836e",
+        "mobilesdk_app_id": "1:292039384197:android:7d57023f3c7d7876b0ddec",
         "android_client_info": {
           "package_name": "com.example.untitled1"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDzEAF0mqKvOdvhmMaaLz9q86fLPt0rRHI"
+          "current_key": "AIzaSyCBJLg8klinT0Luxx5sWA5Jt0Hi1G4ouaE"
         }
       ],
       "services": {

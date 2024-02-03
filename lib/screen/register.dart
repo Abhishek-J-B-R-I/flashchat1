@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:untitled1/screen/chat_screen.dart';
 
 class registration extends StatefulWidget {
   static String rg = 'register';
@@ -8,6 +10,8 @@ class registration extends StatefulWidget {
 }
 
 class _registrationState extends State<registration> {
+  final _auth = FirebaseAuth.instance;
+
   late String email;
   late String pass;
 
@@ -64,9 +68,19 @@ class _registrationState extends State<registration> {
             Hero(
               tag: 'r',
               child: FilledButton(
-                onPressed: () {
-                  print(email);
-                  print(pass);
+                onPressed: () async {
+                  
+                  try {
+                    final newuser = await _auth.createUserWithEmailAndPassword(email: email, password: pass);
+                    if(newuser!=null){
+                      Navigator.pushNamed(context, chat_screen.chatnow);
+                    }
+                  } catch(e){
+print(e);
+                  }
+
+                  // print(email);
+                  //print(pass);
                 },
                 child: Text("Register"),
                 style: ButtonStyle(
