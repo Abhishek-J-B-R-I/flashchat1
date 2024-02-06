@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:untitled1/screen/chat_screen.dart';
-
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 class loginpage extends StatefulWidget {
 
   static String l='loginpage';
@@ -10,6 +11,11 @@ class loginpage extends StatefulWidget {
 }
 
 class _loginpageState extends State<loginpage> {
+  final _auth = FirebaseAuth.instance;
+  late String email;
+  late String password;
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,6 +40,9 @@ class _loginpageState extends State<loginpage> {
             SizedBox(height: 30,),
             TextField(
               keyboardType: TextInputType.emailAddress,
+              onChanged: (value) {
+                email=value;
+              },
               textAlign: TextAlign.center,
               decoration: InputDecoration(
                   border: OutlineInputBorder(
@@ -47,6 +56,9 @@ class _loginpageState extends State<loginpage> {
               obscureText: true,
               textAlign: TextAlign.center,
               //keyboardType: TextInputType.,
+              onChanged: (value) {
+                password=value;
+              },
               decoration: InputDecoration(
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(50)),
@@ -56,8 +68,17 @@ class _loginpageState extends State<loginpage> {
             Hero(
               tag: 'lg',
               child: FilledButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, chat_screen.chatnow);
+                onPressed: () async{
+                 try{
+                   final user= await _auth.signInWithEmailAndPassword(email: email, password: password);
+                   if(user!=null){
+                     Navigator.pushNamed(context, chat_screen.chatnow);
+                   }
+
+                 }catch(e){
+                   print(e);
+                 }
+
                 },
                 child: Text(
                   "Log In",
