@@ -39,6 +39,12 @@ User? loguser;
     return Scaffold(
       appBar: AppBar(
         title: Text("Chat Now"),
+        actions: [
+          IconButton(onPressed: (){
+            _auth.signOut();
+            Navigator.pop(context);
+          }, icon: Icon(Icons.close))
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
