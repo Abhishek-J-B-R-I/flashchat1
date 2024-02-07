@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'register.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 class chat_screen extends StatefulWidget {
   static String chatnow = 'chat_screen';
   //const chat_screen({super.key});
@@ -11,7 +12,10 @@ class chat_screen extends StatefulWidget {
 
 class _chat_screenState extends State<chat_screen> {
   final _auth = FirebaseAuth.instance;
-User? loguser;
+  final _firestorecloud=FirebaseFirestore.instance;
+  late String mes;
+  //FirebaseUser loguser;
+late User loguser;
 
 @override
   void initState() {
@@ -55,6 +59,9 @@ User? loguser;
                 SizedBox(
                   width: 310,
                   child: TextField(
+                    onChanged: (value) {
+                      mes=value;
+                    },
                     decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
@@ -62,7 +69,13 @@ User? loguser;
                         hintText: "Type your message here..."),
                   ),
                 ),
-                TextButton(onPressed: () {}, child: Text("Send"))
+                TextButton(onPressed: () {
+                  _firestorecloud.collection('messages').add({
+                    'text':mes,
+                    'sender':loguser.email,
+                   // 'sender':loguser.email,
+                  });
+                }, child: Text("Send"))
               ],
             )
           ],
