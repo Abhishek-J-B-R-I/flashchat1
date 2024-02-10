@@ -15,7 +15,7 @@ class _chat_screenState extends State<chat_screen> {
   final _firestorecloud=FirebaseFirestore.instance;
   late String mes;
   //FirebaseUser loguser;
-late User loguser;
+  late User loguser;
 
 @override
   void initState() {
@@ -37,7 +37,21 @@ late User loguser;
       print(e);
     }
   }
+/*void getdatamessage()async{
+  final message=await _firestorecloud.collection('messages').get();
+  for (var ms in message.docs){
+    print(ms.data());
 
+  }
+}*/
+
+  void getdatamessageusingsnapchat()async{
+    await for(var i in  _firestorecloud.collection('messages').snapshots()){
+      for(var ms in i.docs){
+        print(ms.data());
+      }
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,8 +59,10 @@ late User loguser;
         title: Text("Chat Now"),
         actions: [
           IconButton(onPressed: (){
-            _auth.signOut();
-            Navigator.pop(context);
+              getdatamessageusingsnapchat();
+            //getdatamessage();
+            /*_auth.signOut();
+            Navigator.pop(context);*/
           }, icon: Icon(Icons.close))
         ],
       ),
@@ -73,7 +89,7 @@ late User loguser;
                   _firestorecloud.collection('messages').add({
                     'text':mes,
                     'sender':loguser.email,
-                   // 'sender':loguser.email,
+
                   });
                 }, child: Text("Send"))
               ],
