@@ -69,7 +69,32 @@ class _chat_screenState extends State<chat_screen> {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
+
           children: [
+            StreamBuilder(stream:  _firestorecloud.collection('messages').snapshots(), builder: (context,snapshot){
+              if(snapshot.hasData){
+                final messages = snapshot.data?.docs;
+                List<Text> mw=[];
+                for(var message in messages!){
+
+                  final mt=message.data ()['text'];
+                  final ms=message.data()['sender'];
+                  final storemessage=Text('$mt from $ms');
+                  mw.add(storemessage);
+
+                }
+
+                return Column(
+                  children:
+                    mw,
+
+                );
+
+              }else{
+                throw Exception('failed to retrieve messages');
+              }
+            }),
+
             Row(
               children: [
                 SizedBox(
