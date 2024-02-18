@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'register.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+final _firestorecloud = FirebaseFirestore.instance;
+
 class chat_screen extends StatefulWidget {
   static String chatnow = 'chat_screen';
   //const chat_screen({super.key});
@@ -12,8 +14,9 @@ class chat_screen extends StatefulWidget {
 }
 
 class _chat_screenState extends State<chat_screen> {
+  final messageTextController= TextEditingController();
   final _auth = FirebaseAuth.instance;
-  final _firestorecloud = FirebaseFirestore.instance;
+
   late String mes;
   //FirebaseUser loguser;
   late User loguser;
@@ -72,61 +75,49 @@ class _chat_screenState extends State<chat_screen> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            StreamBuilder(
-                stream: _firestorecloud.collection('messages').snapshots(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return Center(
-                        child: CircularProgressIndicator(
-                      backgroundColor: Colors.lightBlue,
-                    ));
-                  }
-                  if (snapshot.hasData) {
-                    final messages = snapshot.data?.docs;
-                    List<mbubble> mw = [];
-                    for (var message in messages!) {
-                      final mt = message.data()['text'];
-                      final ms = message.data()['sender'];
-                      final messagebubbler = mbubble(ms: ms,mt: mt,);
-                      mw.add(messagebubbler);
-                    }
-
-                    return Expanded(
-                      child: ListView(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                        children: mw,
-                      ),
-                    );
-                  } else {
-                    throw Exception('failed to retrieve messages');
-                  }
-                }),
+            messages_stream(),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: [
                   SizedBox(
                     width: 310,
-                    child: TextField(
+                    child: TextField(controller: messageTextController,
                       onChanged: (value) {
                         mes = value;
                       },
                       decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Color(0x342196F3),
+                          disabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Color(0x433600))),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color(0x433600),
+                            ),
+                            borderRadius: BorderRadius.circular(40),
+                          ),
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
+                            borderRadius: BorderRadius.circular(40),
                           ),
                           hintText: "Type your message here..."),
                     ),
                   ),
                   TextButton(
                       onPressed: () {
+                        messageTextController.clear();
                         _firestorecloud.collection('messages').add({
                           'text': mes,
                           'sender': loguser.email,
                         });
                       },
-                      child: Text("Send"))
+                      child: CircleAvatar(
+                          radius: 20,
+                          backgroundColor: Colors.lightBlueAccent,
+                          child: Icon(
+                            Icons.send,
+                            color: Colors.black,
+                          )))
                 ],
               ),
             )
@@ -137,10 +128,50 @@ class _chat_screenState extends State<chat_screen> {
   }
 }
 
+class messages_stream extends StatelessWidget {
+  const messages_stream({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+        stream: _firestorecloud.collection('messages').snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Center(
+                child: CircularProgressIndicator(
+              backgroundColor: Colors.lightBlue,
+            ));
+          }
+          if (snapshot.hasData) {
+            final messages = snapshot.data?.docs;
+            List<mbubble> mw = [];
+            for (var message in messages!) {
+              final mt = message.data()['text'];
+              final ms = message.data()['sender'];
+              final messagebubbler = mbubble(
+                ms: ms,
+                mt: mt,
+              );
+              mw.add(messagebubbler);
+            }
+
+            return Expanded(
+              child: ListView(
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                children: mw,
+              ),
+            );
+          } else {
+            throw Exception('failed to retrieve messages');
+          }
+        });
+  }
+}
+
 class mbubble extends StatelessWidget {
-  mbubble({required this.ms,required this.mt});
-   final String? mt;
-   final String? ms;
+  mbubble({required this.ms, required this.mt});
+  final String? mt;
+  final String? ms;
 
   @override
   Widget build(BuildContext context) {
@@ -149,18 +180,23 @@ class mbubble extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-
           Material(
             borderRadius: BorderRadius.circular(10),
             elevation: 5.0,
-           color: Colors.lightBlueAccent ,
+            color: Colors.lightBlueAccent,
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 20),
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text('$ms',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
-                  SizedBox(height: 10,),
+                  Text(
+                    '$ms',
+                    style: TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
                   Text(
                     '$mt ',
                     style: TextStyle(fontSize: 15),
