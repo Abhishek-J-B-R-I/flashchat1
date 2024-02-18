@@ -29,10 +29,12 @@ class _registrationState extends State<registration> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Hero(
-                      tag: 'logo',
-                      child: Image(
-                          image: AssetImage("images/logo.png"), height: 180)),
+                  Flexible(
+                    child: Hero(
+                        tag: 'logo',
+                        child: Image(
+                            image: AssetImage("images/logo.png"), height: 180)),
+                  ),
                 ],
               ),
               SizedBox(

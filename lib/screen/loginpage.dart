@@ -32,11 +32,13 @@ class _loginpageState extends State<loginpage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Hero(
-                    tag: 'logo',
-                    child: Image(
-                      image: AssetImage("images/logo.png"),
-                      height: 150,
+                  Flexible(
+                    child: Hero(
+                      tag: 'logo',
+                      child: Image(
+                        image: AssetImage("images/logo.png"),
+                        height: 150,
+                      ),
                     ),
                   ),
                 ],

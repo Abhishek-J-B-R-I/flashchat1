@@ -4,7 +4,7 @@ import 'register.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 final _firestorecloud = FirebaseFirestore.instance;
-
+late User loguser;
 class chat_screen extends StatefulWidget {
   static String chatnow = 'chat_screen';
   //const chat_screen({super.key});
@@ -19,7 +19,7 @@ class _chat_screenState extends State<chat_screen> {
 
   late String mes;
   //FirebaseUser loguser;
-  late User loguser;
+
 
   @override
   void initState() {
@@ -116,7 +116,7 @@ class _chat_screenState extends State<chat_screen> {
                           backgroundColor: Colors.lightBlueAccent,
                           child: Icon(
                             Icons.send,
-                            color: Colors.black,
+                            color: Colors.white,
                           )))
                 ],
               ),
@@ -148,9 +148,14 @@ class messages_stream extends StatelessWidget {
             for (var message in messages!) {
               final mt = message.data()['text'];
               final ms = message.data()['sender'];
+              final currentUser = loguser.email;
+
+
+
               final messagebubbler = mbubble(
                 ms: ms,
                 mt: mt,
+                isMe: currentUser==ms,
               );
               mw.add(messagebubbler);
             }
@@ -169,30 +174,32 @@ class messages_stream extends StatelessWidget {
 }
 
 class mbubble extends StatelessWidget {
-  mbubble({required this.ms, required this.mt});
+  mbubble({required this.ms, required this.mt, required this.isMe});
   final String? mt;
   final String? ms;
+  final bool isMe;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
+        crossAxisAlignment: isMe?CrossAxisAlignment.end:CrossAxisAlignment.start,
         children: [
           Material(
             borderRadius: BorderRadius.circular(10),
             elevation: 5.0,
-            color: Colors.lightBlueAccent,
+            color: isMe?Colors.lightBlueAccent:Color(0x6B03A9F4),
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
+                crossAxisAlignment: isMe?CrossAxisAlignment.end:CrossAxisAlignment.start,
                 children: [
                   Text(
                     '$ms',
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
+                    style: isMe?TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.bold):TextStyle(
+                        color: Colors.lightBlueAccent, fontWeight: FontWeight.bold,),
                   ),
                   SizedBox(
                     height: 10,
