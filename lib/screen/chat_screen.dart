@@ -63,10 +63,10 @@ class _chat_screenState extends State<chat_screen> {
         actions: [
           IconButton(
               onPressed: () {
-                getdatamessageusingsnapchat();
+                //getdatamessageusingsnapchat();
                 //getdatamessage();
-                /*_auth.signOut();
-            Navigator.pop(context);*/
+                _auth.signOut();
+            Navigator.pop(context);
               },
               icon: Icon(Icons.close))
         ],
@@ -143,7 +143,7 @@ class messages_stream extends StatelessWidget {
             ));
           }
           if (snapshot.hasData) {
-            final messages = snapshot.data?.docs;
+            final messages = snapshot.data?.docs.reversed;
             List<mbubble> mw = [];
             for (var message in messages!) {
               final mt = message.data()['text'];
@@ -162,6 +162,7 @@ class messages_stream extends StatelessWidget {
 
             return Expanded(
               child: ListView(
+                reverse: true,
                 padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                 children: mw,
               ),
