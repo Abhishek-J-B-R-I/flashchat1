@@ -144,11 +144,32 @@ class mbubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-     color: Colors.lightBlueAccent ,
-      child: Text(
-        '$mt from $ms',
-        style: TextStyle(fontSize: 30),
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+
+          Material(
+            borderRadius: BorderRadius.circular(10),
+            elevation: 5.0,
+           color: Colors.lightBlueAccent ,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text('$ms',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
+                  SizedBox(height: 10,),
+                  Text(
+                    '$mt ',
+                    style: TextStyle(fontSize: 15),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
