@@ -105,11 +105,14 @@ class _chat_screenState extends State<chat_screen> {
                   ),
                   TextButton(
                       onPressed: () {
-                        messageTextController.clear();
+
                         _firestorecloud.collection('messages').add({
                           'text': mes,
                           'sender': loguser.email,
+                          'time':FieldValue.serverTimestamp()
                         });
+                        messageTextController.clear();
+
                       },
                       child: CircleAvatar(
                           radius: 20,
@@ -134,13 +137,13 @@ class messages_stream extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-        stream: _firestorecloud.collection('messages').snapshots(),
+        stream: _firestorecloud.collection('messages').orderBy('time',descending: false).snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(
-                child: CircularProgressIndicator(
+                child: Text("data not found")/*CircularProgressIndicator(
               backgroundColor: Colors.lightBlue,
-            ));
+            )*/);
           }
           if (snapshot.hasData) {
             final messages = snapshot.data?.docs.reversed;
@@ -148,6 +151,7 @@ class messages_stream extends StatelessWidget {
             for (var message in messages!) {
               final mt = message.data()['text'];
               final ms = message.data()['sender'];
+              final messageTime=message.data()['time'] as Timestamp;
               final currentUser = loguser.email;
 
 
@@ -155,6 +159,7 @@ class messages_stream extends StatelessWidget {
               final messagebubbler = mbubble(
                 ms: ms,
                 mt: mt,
+                time: messageTime,
                 isMe: currentUser==ms,
               );
               mw.add(messagebubbler);
@@ -175,11 +180,11 @@ class messages_stream extends StatelessWidget {
 }
 
 class mbubble extends StatelessWidget {
-  mbubble({required this.ms, required this.mt, required this.isMe});
+  mbubble({required this.ms, required this.mt, required this.isMe, required this.time});
   final String? mt;
   final String? ms;
   final bool isMe;
-
+  final Timestamp time;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -208,7 +213,8 @@ class mbubble extends StatelessWidget {
                   Text(
                     '$mt ',
                     style: TextStyle(fontSize: 15),
-                  ),
+                  ), Text('${DateTime.fromMillisecondsSinceEpoch(time.seconds * 1000)}', style: TextStyle(fontSize: 10),)
+                  ,
                 ],
               ),
             ),
