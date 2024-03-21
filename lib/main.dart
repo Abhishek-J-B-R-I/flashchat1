@@ -4,7 +4,13 @@ import 'package:untitled1/screen/register.dart';
 import 'package:flutter/material.dart';
 import 'screen/welcomescreen.dart';
 import 'package:firebase_core/firebase_core.dart';
+/*
 
+if you want to make you chat in order way then visit thie website
+https://stackoverflow.com/questions/57584317/messages-on-flutter-chat-app-not-in-proper-order
+
+
+*/
 
 Future main()async{
   WidgetsFlutterBinding.ensureInitialized();

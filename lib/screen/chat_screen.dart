@@ -2,7 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'register.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+/*
 
+if you want to make you chat in order way then visit thie website
+https://stackoverflow.com/questions/57584317/messages-on-flutter-chat-app-not-in-proper-order
+
+
+*/
 final _firestorecloud = FirebaseFirestore.instance;
 late User loguser;
 class chat_screen extends StatefulWidget {
