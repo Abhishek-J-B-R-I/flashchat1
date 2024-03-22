@@ -1,8 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'register.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
+import 'dart:math';
+
 /*
 
 if you want to make you chat in order way then visit thie website
@@ -13,8 +16,6 @@ https://stackoverflow.com/questions/57584317/messages-on-flutter-chat-app-not-in
 final _firestorecloud = FirebaseFirestore.instance;
 late User loguser;
 
-
-
 class chat_screen extends StatefulWidget {
   static String chatnow = 'chat_screen';
   //const chat_screen({super.key});
@@ -24,12 +25,11 @@ class chat_screen extends StatefulWidget {
 }
 
 class _chat_screenState extends State<chat_screen> {
-  final messageTextController= TextEditingController();
+  final messageTextController = TextEditingController();
   final _auth = FirebaseAuth.instance;
 
   late String mes;
   //FirebaseUser loguser;
-
 
   @override
   void initState() {
@@ -71,7 +71,13 @@ class _chat_screenState extends State<chat_screen> {
       appBar: AppBar(
         title: Row(
           children: [
-            Image(image: AssetImage("images/logo.png"),height: 30,),Text("Chat Now"),
+            Image(
+              image: AssetImage("images/logo.png"),
+              height: 30,
+            ),
+            Transform.rotate(angle:-50 * (pi / 180) ,child: Image(image: AssetImage("images/t.png"),height: 60,))
+            //Text("Chat Now"),
+
           ],
         ),
         actions: [
@@ -80,7 +86,7 @@ class _chat_screenState extends State<chat_screen> {
                 //getdatamessageusingsnapchat();
                 //getdatamessage();
                 _auth.signOut();
-            Navigator.pop(context);
+                Navigator.pop(context);
               },
               icon: Icon(Icons.close))
         ],
@@ -90,15 +96,19 @@ class _chat_screenState extends State<chat_screen> {
         child: Column(
           children: [
             StreamBuilder(
-                stream: _firestorecloud.collection('messages').orderBy('time',descending: false).snapshots(),
+                stream: _firestorecloud
+                    .collection('messages')
+                    .orderBy('time', descending: false)
+                    .snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return Center(
-                        child: Text("data not found")/*CircularProgressIndicator(
+                        child: Text(
+                            "data not found") /*CircularProgressIndicator(
               backgroundColor: Colors.lightBlue,
-            )*/);
+            )*/
+                        );
                   }
-
 
                   if (snapshot.hasData) {
                     final messages = snapshot.data?.docs.reversed;
@@ -106,16 +116,14 @@ class _chat_screenState extends State<chat_screen> {
                     for (var message in messages!) {
                       final mt = message.data()['text'];
                       final ms = message.data()['sender'];
-                      final messageTime=message.data()['time'];
+                      final messageTime = message.data()['time'];
                       final currentUser = loguser.email;
-
-
 
                       final messagebubbler = mbubble(
                         ms: ms,
                         mt: mt,
                         time: messageTime,
-                        isMe: currentUser==ms,
+                        isMe: currentUser == ms,
                       );
                       mw.add(messagebubbler);
                     }
@@ -123,7 +131,8 @@ class _chat_screenState extends State<chat_screen> {
                     return Expanded(
                       child: ListView(
                         reverse: true,
-                        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                         children: mw,
                       ),
                     );
@@ -137,7 +146,9 @@ class _chat_screenState extends State<chat_screen> {
                 children: [
                   SizedBox(
                     width: 310,
-                    child: TextField(controller: messageTextController,style: TextStyle(color: Colors.white),
+                    child: TextField(
+                      controller: messageTextController,
+                      style: TextStyle(color: Colors.white),
                       onChanged: (value) {
                         mes = value;
                       },
@@ -148,7 +159,7 @@ class _chat_screenState extends State<chat_screen> {
                               borderSide: BorderSide(color: Color(0x433600))),
                           focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
-                              color: Color(0x433600),//0x433600
+                              color: Color(0x433600), //0x433600
                             ),
                             borderRadius: BorderRadius.circular(40),
                           ),
@@ -160,14 +171,12 @@ class _chat_screenState extends State<chat_screen> {
                   ),
                   TextButton(
                       onPressed: () {
-
                         _firestorecloud.collection('messages').add({
                           'text': mes,
                           'sender': loguser.email,
-                          'time':FieldValue.serverTimestamp()
+                          'time': FieldValue.serverTimestamp()
                         });
                         messageTextController.clear();
-
                       },
                       child: CircleAvatar(
                           radius: 20,
@@ -237,9 +246,12 @@ class messages_stream extends StatelessWidget {
 }
 */
 
-
 class mbubble extends StatelessWidget {
-  mbubble({required this.ms, required this.mt, required this.isMe, required this.time});
+  mbubble(
+      {required this.ms,
+      required this.mt,
+      required this.isMe,
+      required this.time});
   final String? mt;
   final String? ms;
   final bool isMe;
@@ -249,22 +261,28 @@ class mbubble extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Column(
-        crossAxisAlignment: isMe?CrossAxisAlignment.end:CrossAxisAlignment.start,
+        crossAxisAlignment:
+            isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: [
           Material(
             borderRadius: BorderRadius.circular(10),
             elevation: 5.0,
-            color: isMe?Colors.lightBlueAccent:Color(0x6B03A9F4),
+            color: isMe ? Colors.lightBlueAccent : Color(0x6B03A9F4),
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               child: Column(
-                crossAxisAlignment: isMe?CrossAxisAlignment.end:CrossAxisAlignment.start,
+                crossAxisAlignment:
+                    isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
                 children: [
                   Text(
                     '$ms',
-                    style: isMe?TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold):TextStyle(
-                        color: Colors.lightBlueAccent, fontWeight: FontWeight.bold,),
+                    style: isMe
+                        ? TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.bold)
+                        : TextStyle(
+                            color: Colors.lightBlueAccent,
+                            fontWeight: FontWeight.bold,
+                          ),
                   ),
                   SizedBox(
                     height: 10,
@@ -272,7 +290,8 @@ class mbubble extends StatelessWidget {
                   Text(
                     '$mt ',
                     style: TextStyle(fontSize: 15),
-                  ),if(time != null)
+                  ),
+                  if (time != null)
                     Text(
                       '${DateFormat('HH:mm').format(DateTime.fromMillisecondsSinceEpoch(time!.seconds * 1000))}',
                       style: TextStyle(fontSize: 10),
