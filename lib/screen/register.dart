@@ -61,7 +61,7 @@ class _registrationState extends State<registration> {
                 obscureText: true,
                 textAlign: TextAlign.center,
                 onChanged: (value) {
-                  pass = value;
+                  pass = value;//
                 },
                 decoration: InputDecoration(
                     hintText: "Enter your password",
