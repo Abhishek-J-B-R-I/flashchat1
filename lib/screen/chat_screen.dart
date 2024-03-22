@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'register.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 /*
 
 if you want to make you chat in order way then visit thie website
@@ -219,7 +220,7 @@ class mbubble extends StatelessWidget {
                   Text(
                     '$mt ',
                     style: TextStyle(fontSize: 15),
-                  ), Text('${DateTime.fromMillisecondsSinceEpoch(time.seconds * 1000)}', style: TextStyle(fontSize: 10),)
+                  ), Text('${DateFormat('HH:mm').format(DateTime.fromMillisecondsSinceEpoch(time.seconds * 1000))}', style: TextStyle(fontSize: 10),)
                   ,
                 ],
               ),
