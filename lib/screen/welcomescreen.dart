@@ -49,13 +49,13 @@ class _WelcomescreenState extends State<Welcomescreen>
                   tag: 'logo',
                   child: Image(
                     image: AssetImage('images/logo.png'),
-                    height: a.value * 100,
+                    height: a.value * 250,
                   ),
                 ),
-                Text(
+                /*Text(
                   "${(controller.value.toInt())}", //"${controller.value.toInt()}%",
                   style: TextStyle(fontSize: 45),
-                )
+                )*/
               ],
             ),
             SizedBox(

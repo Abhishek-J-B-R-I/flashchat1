@@ -37,7 +37,7 @@ class _loginpageState extends State<loginpage> {
                       tag: 'logo',
                       child: Image(
                         image: AssetImage("images/logo.png"),
-                        height: 150,
+                        height: 250,
                       ),
                     ),
                   ),
@@ -45,6 +45,7 @@ class _loginpageState extends State<loginpage> {
               ),
               SizedBox(height: 30,),
               TextField(
+                style: TextStyle(color: Colors.white),
                 keyboardType: TextInputType.emailAddress,
                 onChanged: (value) {
                   email=value;
@@ -59,7 +60,7 @@ class _loginpageState extends State<loginpage> {
               ),
               SizedBox(height: 10,),
               TextField(
-                obscureText: true,
+                obscureText: true,style: TextStyle(color: Colors.white),
                 textAlign: TextAlign.center,
                 //keyboardType: TextInputType.,
                 onChanged: (value) {

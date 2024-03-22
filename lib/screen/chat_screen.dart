@@ -133,7 +133,7 @@ class _chat_screenState extends State<chat_screen> {
                 children: [
                   SizedBox(
                     width: 310,
-                    child: TextField(controller: messageTextController,
+                    child: TextField(controller: messageTextController,style: TextStyle(color: Colors.white),
                       onChanged: (value) {
                         mes = value;
                       },
@@ -144,7 +144,7 @@ class _chat_screenState extends State<chat_screen> {
                               borderSide: BorderSide(color: Color(0x433600))),
                           focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
-                              color: Color(0x433600),
+                              color: Color(0x433600),//0x433600
                             ),
                             borderRadius: BorderRadius.circular(40),
                           ),

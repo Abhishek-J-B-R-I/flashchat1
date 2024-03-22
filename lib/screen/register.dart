@@ -33,7 +33,7 @@ class _registrationState extends State<registration> {
                     child: Hero(
                         tag: 'logo',
                         child: Image(
-                            image: AssetImage("images/logo.png"), height: 180)),
+                            image: AssetImage("images/logo.png"), height: 250)),
                   ),
                 ],
               ),
@@ -41,6 +41,7 @@ class _registrationState extends State<registration> {
                 height: 30,
               ),
               TextField(
+                style: TextStyle(color: Colors.white),
                 keyboardType: TextInputType.emailAddress,
                 textAlign: TextAlign.center,
                 onChanged: (value) {
@@ -56,6 +57,7 @@ class _registrationState extends State<registration> {
                 height: 10,
               ),
               TextField(
+                style: TextStyle(color: Colors.white),
                 obscureText: true,
                 textAlign: TextAlign.center,
                 onChanged: (value) {
