@@ -69,7 +69,11 @@ class _chat_screenState extends State<chat_screen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Chat Now"),
+        title: Row(
+          children: [
+            Image(image: AssetImage("images/logo.png"),height: 30,),Text("Chat Now"),
+          ],
+        ),
         actions: [
           IconButton(
               onPressed: () {
