@@ -12,6 +12,9 @@ https://stackoverflow.com/questions/57584317/messages-on-flutter-chat-app-not-in
 */
 final _firestorecloud = FirebaseFirestore.instance;
 late User loguser;
+
+
+
 class chat_screen extends StatefulWidget {
   static String chatnow = 'chat_screen';
   //const chat_screen({super.key});
@@ -82,7 +85,48 @@ class _chat_screenState extends State<chat_screen> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            messages_stream(),
+            StreamBuilder(
+                stream: _firestorecloud.collection('messages').orderBy('time',descending: false).snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Center(
+                        child: Text("data not found")/*CircularProgressIndicator(
+              backgroundColor: Colors.lightBlue,
+            )*/);
+                  }
+
+
+                  if (snapshot.hasData) {
+                    final messages = snapshot.data?.docs.reversed;
+                    List<mbubble> mw = [];
+                    for (var message in messages!) {
+                      final mt = message.data()['text'];
+                      final ms = message.data()['sender'];
+                      final messageTime=message.data()['time'];
+                      final currentUser = loguser.email;
+
+
+
+                      final messagebubbler = mbubble(
+                        ms: ms,
+                        mt: mt,
+                        time: messageTime,
+                        isMe: currentUser==ms,
+                      );
+                      mw.add(messagebubbler);
+                    }
+
+                    return Expanded(
+                      child: ListView(
+                        reverse: true,
+                        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                        children: mw,
+                      ),
+                    );
+                  } else {
+                    throw Exception('failed to retrieve messages');
+                  }
+                }),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
@@ -137,7 +181,9 @@ class _chat_screenState extends State<chat_screen> {
     );
   }
 }
+/*
 
+this code work fine except whenever i send message then i see red screen so that's why i comment this
 class messages_stream extends StatelessWidget {
   const messages_stream({super.key});
 
@@ -185,13 +231,15 @@ class messages_stream extends StatelessWidget {
         });
   }
 }
+*/
+
 
 class mbubble extends StatelessWidget {
   mbubble({required this.ms, required this.mt, required this.isMe, required this.time});
   final String? mt;
   final String? ms;
   final bool isMe;
-  final Timestamp time;
+  final Timestamp? time;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -220,8 +268,11 @@ class mbubble extends StatelessWidget {
                   Text(
                     '$mt ',
                     style: TextStyle(fontSize: 15),
-                  ), Text('${DateFormat('HH:mm').format(DateTime.fromMillisecondsSinceEpoch(time.seconds * 1000))}', style: TextStyle(fontSize: 10),)
-                  ,
+                  ),if(time != null)
+                    Text(
+                      '${DateFormat('HH:mm').format(DateTime.fromMillisecondsSinceEpoch(time!.seconds * 1000))}',
+                      style: TextStyle(fontSize: 10),
+                    ),
                 ],
               ),
             ),
