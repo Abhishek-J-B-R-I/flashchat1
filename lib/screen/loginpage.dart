@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:untitled1/screen/chat_screen.dart';
+import 'package:untitled1/Screens/taskscreen.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -82,7 +83,7 @@ class _loginpageState extends State<loginpage> {
                    try{
                      final user= await _auth.signInWithEmailAndPassword(email: email, password: password);
                      if(user!=null){
-                       Navigator.pushNamed(context, chat_screen.chatnow);
+                       Navigator.pushNamed(context, TaskScreen.ts);
                      }
 
                    }catch(e){

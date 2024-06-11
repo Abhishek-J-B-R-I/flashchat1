@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:untitled1/screen/chat_screen.dart';
+import 'package:untitled1/Screens/taskscreen.dart';
+
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 class registration extends StatefulWidget {
   static String rg = 'register';
@@ -81,7 +82,7 @@ class _registrationState extends State<registration> {
                     try {
                       final newuser = await _auth.createUserWithEmailAndPassword(email: email, password: pass);
                       if(newuser!=null){
-                        Navigator.pushNamed(context, chat_screen.chatnow);
+                        Navigator.pushNamed(context, TaskScreen.ts);
                       }
                     } catch(e){
                       print(e);
